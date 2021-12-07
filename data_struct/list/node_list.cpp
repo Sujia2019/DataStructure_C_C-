@@ -143,6 +143,17 @@ LNode * LocateElem(LinkList L,int e){
     return p;    // 找到后返回该结点指针，否则返回NULL 
 }
 
+// 求表的长度
+int Length(LinkList L){
+    int len = 0;
+    LNode *p = L;
+    while(p->next!=NULL){
+        p=p->next;
+        len++;
+    }
+    return len;
+}
+
 void test(){
     LinkList L; // 声明一个指向单链表的指针
     // 初始化空表
