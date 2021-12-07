@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 typedef struct LNode{   // 定义单链表结点类型
     int data;           // 每个结点存放一个数据元素
@@ -69,7 +70,7 @@ bool InsertNextNode(LNode *p,int e){
     return true;
 }
 
-// 指定结点的前插操作: 在p结点之前插入结点s
+// 指定结点的前插操作: 在p结点之前插入结点s   O(1)
 bool InsertPriorNode(LNode *p,LNode *s){
     if(p==NULL||s==NULL){
         return false;
@@ -82,7 +83,7 @@ bool InsertPriorNode(LNode *p,LNode *s){
     return true;
 }
 
-// 按位序删除
+// 按位序删除  O(n)
 bool ListDelete(LinkList &L,int i,int &e){
     if(i<1){
         return false;
@@ -118,7 +119,7 @@ bool DeleteNode(LNode *p){
     free(q);                // 释放后继结点的存储空间
 }
 
-// 带头结点 按位查找
+// 带头结点 按位查找  O(n)
 LNode * GetElem(LinkList L, int i){
     if(i<0){
         return NULL;
@@ -153,6 +154,41 @@ int Length(LinkList L){
     }
     return len;
 }
+
+// 尾插法建立单链表 O(n)
+LinkList List_TailInsert(LinkList &L){
+    int x;
+    L=(LinkList)malloc(sizeof(LNode)); // 建立头结点
+    LNode *s, *r=L;                    // r为表尾指针
+    scanf("%d", &x);                   // 用户输入结点的值
+    while(x!=9999){                    // 当用户输入9999时认为结束
+        s=(LNode *)malloc(sizeof(LNode));
+        s->data=x;
+        r->next=s;
+        r=s;                           // r指向新的表尾结点
+        scanf("%d",&x);
+    }
+    r->next=NULL;                      // 尾结点指针置空
+    return L;
+}
+
+// 头插法建立单链表 - 相当于每次都对头结点做一次后插操作
+LinkList List_HeadInsert(LinkList &L){
+    LNode *s;
+    int x;
+    L=(LinkList)malloc(sizeof(LNode));    // 创建头结点
+    L->next=NULL;                         // 初始为空链表
+    scanf("%d",&x);                       // 输入结点的值
+    while(x!=9999){
+        s=(LNode *)malloc(sizeof(LNode)); // 创建新结点
+        s->data = x;
+        s->next = L->next;
+        L->next=s;    // 将新结点插入表中，L为头指针
+        scanf("%d",&x);
+    }
+    return L;
+}
+
 
 void test(){
     LinkList L; // 声明一个指向单链表的指针
