@@ -164,7 +164,7 @@ LinkList List_TailInsert(LinkList &L){
     while(x!=9999){                    // 当用户输入9999时认为结束
         s=(LNode *)malloc(sizeof(LNode));
         s->data=x;
-        r->next=s;
+        r->next=s;                     // r的下一个结点是s，那么此时s是表尾结点
         r=s;                           // r指向新的表尾结点
         scanf("%d",&x);
     }
@@ -173,6 +173,7 @@ LinkList List_TailInsert(LinkList &L){
 }
 
 // 头插法建立单链表 - 相当于每次都对头结点做一次后插操作
+// 可用于链表逆制
 LinkList List_HeadInsert(LinkList &L){
     LNode *s;
     int x;
@@ -182,13 +183,40 @@ LinkList List_HeadInsert(LinkList &L){
     while(x!=9999){
         s=(LNode *)malloc(sizeof(LNode)); // 创建新结点
         s->data = x;
-        s->next = L->next;
-        L->next=s;    // 将新结点插入表中，L为头指针
+        s->next = L->next;  // 将L后面的结点接到s后面
+        L->next=s;          // 将新结点插入表中，L为头指针
         scanf("%d",&x);
     }
     return L;
 }
 
+// 循环单链表初始化
+bool InitList_XunHuan(LinkList &L){
+    L = (LNode *)malloc(sizeof(LNode)); // 分配一个头结点
+    if(L==NULL){
+        return false;
+    }
+    L->next = L; //头结点next指向头结点
+    return true;
+}
+
+// 判断循环单链表是否为空
+bool Empty(LinkList L){
+    if(L->next == L){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+// 判断结点p是否为循环单链表的表尾结点
+bool isTail(LinkList L, LNode *p){
+    if (p->next==L){
+        return true;
+    }else{
+        return false;
+    }
+} 
 
 void test(){
     LinkList L; // 声明一个指向单链表的指针
