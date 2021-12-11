@@ -82,10 +82,10 @@ int IndexString(SString S,SString T){
 int Index_KMP(SString S,SString T){
     int i=1;
     int j=1;
-    int next[T.length+1];
-    get_next(T,next);
+    int next[T.length+1];   
+    get_next(T,next);   // O(m)
     int tn = T.length;
-    while(i < S.length && i-T.length >= 0){
+    while(i < S.length && i-T.length >= 0){   //  O(n)
         if(S.ch[i] == T.ch[j]){
             ++i;
             ++j;
@@ -100,6 +100,8 @@ int Index_KMP(SString S,SString T){
     }
 }
 
+// aaaab  -> [0,1,2,3,4],   nextval优化 -> [0,0,0,0,4]
+// ababaa -> [0,1,1,2,3,4]， nextval优化 -> [0,1,0,1,0,4]
 // 求模式串T的next数组
 void get_next(SString T,int next[]){
     int i=1,j=0;
