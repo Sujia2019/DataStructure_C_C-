@@ -18,6 +18,20 @@ void InitQueue(LinkQueue &Q){
     Q.front = Q.rear = (LinkNode *)malloc(sizeof(LinkNode));
     Q.front->next=NULL;
 }
+
+// 初始化队列（不带头结点）
+void InitQueue0(LinkQueue &Q){
+    Q.front = NULL;
+    Q.rear = NULL;
+}
+
+bool IsEmpty0(LinkQueue Q){
+    if(Q.front == NULL){
+        return true;
+    }else{
+        return false;
+    }
+}
 // 新元素入队（带头结点）
 void EnQueue(LinkQueue &Q, ElemType x){
     LinkNode *s=(LinkNode *)malloc(sizeof(LinkNode));
@@ -26,6 +40,7 @@ void EnQueue(LinkQueue &Q, ElemType x){
     Q.rear->next=s; // 新结点插入到rear之后
     Q.rear=s;       // 修改表尾指针
 }
+
 // 出队列，带头结点
 bool DeQueue(LinkQueue &Q,ElemType &x){
     if(Q.front==Q.rear){
@@ -44,4 +59,12 @@ bool DeQueue(LinkQueue &Q,ElemType &x){
 void testLinkQueue(){
     LinkQueue Q; // 声明一个队列
     InitQueue(Q);// 初始化队列
+}
+
+bool IsEmpty(LinkQueue Q){
+    if(Q.front==Q.rear){
+        return true;
+    }else{
+        return false;
+    }
 }
