@@ -118,5 +118,87 @@ void LevelOrder(BiTree T){
             EnQueue(Q,p->rchild);
         }
     }
-    
+}
+
+// 线索二叉树结点
+typedef struct ThreadNode
+{
+    ElemType data;
+    struct  ThreadNode *lchild,*rchild;
+    int ltag,rtag; // 左右线索标志
+    // tag == 0，表示指针指向孩子
+    // tag == 1，表示指针是“线索”
+}ThreadNode,*ThreadTree;
+
+
+// 全局变量 pre 指向当前访问结点的前驱
+ThreadNode *pre = NULL;
+
+void visit1(ThreadNode *q){
+    if(q->lchild==NULL){// 左子树为空，建立前驱线索
+        q->lchild=pre;
+        q->ltag=1;
+    }
+    if(pre!=NULL&&pre->rchild==NULL){
+        pre->rchild=q; // 建立前驱结点的后继结点
+        pre->rtag=1;
+    }
+    pre=q;
+}
+// 中序遍历二叉树，一边遍历一边线索化
+void InThread(ThreadTree T){
+    if(T!=NULL){
+        InThread(T->lchild);
+        visit1(T);
+        InThread(T->rchild);
+    }
+}
+
+// 中序线索化二叉树T
+void CreateInThread(ThreadTree T){
+    pre = NULL;
+    if(T!=NULL){
+        InThread(T);
+        if(pre->rchild==NULL){
+            pre->rtag = 1; // 处理遍历的最后一个结点
+        }
+    }
+}
+
+// 先序遍历二叉树，一边遍历一边线索化线索化
+void PreThread(ThreadTree T){
+    if(T!=NULL){
+        visit1(T); // 先处理根结点
+        PreThread(T->lchild);
+        PreThread(T->rchild); 
+    }
+}
+
+void CreatePreThread(ThreadTree T){
+    pre = NULL;
+    if(T!=NULL){
+        PreThread(T);
+        if(pre->rchild == NULL){
+            pre->rtag = 1; // 处理遍历的最后一个结点
+        }
+    }
+}
+
+void PostThread(ThreadTree T){
+    if(T!=NULL){
+        PostThread(T->lchild);
+        PostThread(T->rchild);
+        visit1(T);
+    }
+}
+
+// 后序线索化二叉树T
+void CreatePostThread(ThreadTree T){
+    pre = NULL;
+    if(T!=NULL){
+        PostThread(T);
+        if(pre->rchild==NULL){
+            pre->rtag=1;
+        }
+    }
 }
