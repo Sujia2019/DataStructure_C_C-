@@ -174,7 +174,7 @@ int Partition(int array[],int low,int high){
 // 建立大顶堆
 void BuildMaxHeap(int array[],int len){
     for(int i=len/2;i>0;i--){     // 从后往前调整所有非终端结点
-
+        HeadAdjust(array,i,len);
     }
 }
 // 将以k为根的子树调整为大根堆
@@ -192,4 +192,12 @@ void HeadAdjust(int array[],int k,int len){
         }
     }
     array[k]=array[0];            // 被筛选结点的值放入最终位置
+}
+
+void HeapSort(int array[], int len){
+    BuildMaxHeap(array, len);       // 初始建堆
+    for(int i=len;i>1;i--){         // n-1趟的交换和建堆过程
+        swap(array[i],array[1]);    // 堆顶元素和堆底元素交换
+        HeadAdjust(array,1,i-1);    // 把剩余的待排序元素整理成堆
+    }
 }
